@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'app'
+  layout: 'app',
+  middleware: 'auth'
 })
 
 useSeoMeta({
@@ -62,9 +63,7 @@ async function submitRequest() {
       status: 'pending'
     })
 
-    if (error) {
-      throw error
-    }
+    if (error) throw error
 
     successMessage.value = 'Your number-change request has been submitted for review.'
     requestedNumber.value = ''
@@ -78,13 +77,17 @@ async function submitRequest() {
 </script>
 
 <template>
-  <UContainer>
+  <UContainer class="py-6 md:py-8">
     <UCard class="border border-slate-200 bg-white">
       <template #header>
-        <div>
-          <p class="text-sm uppercase tracking-[0.25em] text-amber-600">Interim protection</p>
-          <h1 class="mt-2 text-2xl font-semibold text-slate-900">Request sender-number change</h1>
-          <p class="mt-2 text-sm text-slate-600">
+        <div class="space-y-1">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-600">
+            Interim protection
+          </p>
+          <h1 class="text-2xl font-semibold text-slate-900">
+            Request sender-number change
+          </h1>
+          <p class="text-sm text-slate-600">
             Until SMS OTP is in place, this keeps the verified sender number controlled through review.
           </p>
         </div>
@@ -92,19 +95,35 @@ async function submitRequest() {
 
       <div class="grid gap-4 md:grid-cols-2">
         <UFormField label="Current verified number">
-          <UInput v-model="currentNumber" readonly />
+          <UInput
+            v-model="currentNumber"
+            readonly
+            size="lg"
+          />
         </UFormField>
 
         <UFormField label="Requested new number">
-          <UInput v-model="requestedNumber" placeholder="2547..." />
+          <UInput
+            v-model="requestedNumber"
+            placeholder="2547..."
+            inputmode="numeric"
+            size="lg"
+          />
         </UFormField>
       </div>
 
-      <UFormField class="mt-4" label="Reason">
-        <UTextarea v-model="reason" :rows="4" placeholder="Explain why the number is changing." />
+      <UFormField
+        class="mt-4"
+        label="Reason"
+      >
+        <UTextarea
+          v-model="reason"
+          :rows="4"
+          placeholder="Explain why the number is changing."
+        />
       </UFormField>
 
-      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
         <UButton
           :loading="loading"
           label="Submit request"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'app'
+  layout: 'app',
+  middleware: 'auth'
 })
 
 useSeoMeta({
@@ -20,7 +21,6 @@ const recipientNumber = ref('')
 const amount = ref<number | null>(null)
 const reference = ref('')
 const loading = ref(false)
-const readyState = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 const verifiedSenderNumber = ref<string | null>(null)
@@ -57,7 +57,6 @@ async function loadProfile() {
   }
 
   reference.value = generateReference()
-  readyState.value = true
 }
 
 onMounted(loadProfile)
@@ -74,7 +73,7 @@ async function submitPurchase() {
   }
 
   if (verifiedSenderNumber.value && senderNumber.value !== verifiedSenderNumber.value) {
-    errorMessage.value = 'That sender number is not the verified one. Use Request number change in settings first.'
+    errorMessage.value = 'That sender number is not the verified one. Use Request change first.'
     return
   }
 
@@ -92,9 +91,7 @@ async function submitPurchase() {
       }
     })
 
-    if (error) {
-      throw error
-    }
+    if (error) throw error
 
     successMessage.value = data?.message || `STK request queued for ${reference.value}.`
     refreshReference()
@@ -107,40 +104,59 @@ async function submitPurchase() {
 </script>
 
 <template>
-  <UContainer>
-    <div class="grid gap-6 xl:grid-cols-[1.1fr_.9fr]">
+  <UContainer class="py-6 md:py-8">
+    <div class="grid gap-4 lg:grid-cols-[1.1fr_.9fr] lg:gap-6">
       <UCard class="border border-slate-200 bg-white">
         <template #header>
-          <div>
-            <p class="text-sm uppercase tracking-[0.25em] text-amber-600">Purchase airtime</p>
-            <h1 class="mt-2 text-2xl font-semibold text-slate-900">Welcome{{ fullName ? `, ${fullName}` : '' }}.</h1>
+          <div class="space-y-1">
+            <p class="text-xs uppercase tracking-[0.25em] text-amber-600">Purchase airtime</p>
+            <h1 class="text-2xl font-semibold text-slate-900">Welcome{{ fullName ? `, ${fullName}` : '' }}.</h1>
+            <p class="text-sm text-slate-500">Keep the form tight on mobile and fast on desktop.</p>
           </div>
         </template>
 
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-4">
           <UFormField label="Sender number">
-            <UInput v-model="senderNumber" placeholder="2547..." />
+            <UInput
+              v-model="senderNumber"
+              placeholder="2547..."
+              inputmode="numeric"
+              autocomplete="tel"
+              size="lg"
+            />
           </UFormField>
 
           <UFormField label="Recipient number">
-            <UInput v-model="recipientNumber" placeholder="2547..." />
+            <UInput
+              v-model="recipientNumber"
+              placeholder="2547..."
+              inputmode="numeric"
+              autocomplete="tel"
+              size="lg"
+            />
           </UFormField>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <UFormField label="Amount">
+              <UInput
+                v-model="amount"
+                type="number"
+                placeholder="100"
+                inputmode="numeric"
+                size="lg"
+              />
+            </UFormField>
+
+            <UFormField label="Transaction reference">
+              <div class="flex gap-2">
+                <UInput :model-value="reference" readonly size="lg" class="flex-1" />
+                <UButton label="New" color="neutral" variant="soft" @click="refreshReference" />
+              </div>
+            </UFormField>
+          </div>
         </div>
 
-        <div class="mt-4 grid gap-4 md:grid-cols-2">
-          <UFormField label="Amount">
-            <UInput v-model="amount" type="number" placeholder="100" />
-          </UFormField>
-
-          <UFormField label="Transaction reference">
-            <div class="flex gap-2">
-              <UInput :model-value="reference" readonly class="flex-1" />
-              <UButton label="Regenerate" color="neutral" variant="soft" @click="refreshReference" />
-            </div>
-          </UFormField>
-        </div>
-
-        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
           <UButton
             :loading="loading"
             label="Initiate STK push"
@@ -159,7 +175,7 @@ async function submitPurchase() {
 
         <UAlert
           v-if="verifiedSenderNumber"
-          class="mt-6"
+          class="mt-5"
           color="primary"
           variant="soft"
           :title="`Verified sender number: ${verifiedSenderNumber}`"
@@ -182,19 +198,19 @@ async function submitPurchase() {
         />
       </UCard>
 
-      <div class="space-y-6">
+      <div class="space-y-4">
         <UCard class="border border-slate-200 bg-white">
-          <p class="text-sm uppercase tracking-[0.25em] text-amber-600">Transaction origin</p>
-          <p class="mt-3 text-3xl font-semibold text-slate-900">{{ reference }}</p>
-          <p class="mt-2 text-sm leading-7 text-slate-600">
-            This website creates the transaction reference so the backend and callback records can show the source cleanly.
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-600">Transaction origin</p>
+          <p class="mt-3 break-all text-2xl font-semibold text-slate-900">{{ reference }}</p>
+          <p class="mt-2 text-sm leading-6 text-slate-600">
+            This website creates the reference so the backend and callback record can show the source cleanly.
           </p>
         </UCard>
 
         <UCard class="border border-slate-200 bg-white">
-          <p class="text-sm uppercase tracking-[0.25em] text-amber-600">Current rule</p>
-          <p class="mt-3 text-sm leading-7 text-slate-600">
-            If the sender number changes, Goldmen should route that change through the request-change flow instead of letting the user overwrite the verified number directly.
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-600">Rule</p>
+          <p class="mt-3 text-sm leading-6 text-slate-600">
+            If the sender number changes, Goldmen sends the user through the request-change flow instead of overwriting the verified number directly.
           </p>
         </UCard>
       </div>

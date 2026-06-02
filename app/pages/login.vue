@@ -65,40 +65,37 @@ async function sendMagicLink() {
 <template>
   <div>
     <div class="mb-8 text-center">
-      <h1 class="text-3xl font-semibold text-white">
-        Sign in to Goldmen
-      </h1>
-      <p class="mt-3 text-sm text-slate-400">
+      <h1 class="text-3xl font-semibold text-white">Sign in to Goldmen</h1>
+      <p class="mt-3 text-sm leading-6 text-slate-400">
         Google is the default path. GitHub and email magic link are included as extra options.
       </p>
     </div>
 
     <div class="space-y-3">
-      <UButton
-        block
-        size="lg"
-        icon="i-simple-icons-google"
-        :loading="loading === 'google'"
-        label="Continue with Google"
-        @click="signInWithProvider('google')"
-      />
+      <div class="grid gap-3 sm:grid-cols-2">
+        <UButton
+          block
+          size="lg"
+          icon="i-simple-icons-google"
+          :loading="loading === 'google'"
+          label="Continue with Google"
+          @click="signInWithProvider('google')"
+        />
 
-      <UButton
-        block
-        size="lg"
-        color="neutral"
-        variant="soft"
-        icon="i-simple-icons-github"
-        :loading="loading === 'github'"
-        label="Continue with GitHub"
-        @click="signInWithProvider('github')"
-      />
+        <UButton
+          block
+          size="lg"
+          color="neutral"
+          variant="soft"
+          icon="i-simple-icons-github"
+          :loading="loading === 'github'"
+          label="Continue with GitHub"
+          @click="signInWithProvider('github')"
+        />
+      </div>
 
-      <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-        <UFormField
-          label="Email address"
-          hint="Magic link login"
-        >
+      <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+        <UFormField label="Email address" hint="Magic link login">
           <UInput
             v-model="email"
             type="email"
