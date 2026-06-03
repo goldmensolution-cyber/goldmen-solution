@@ -8,63 +8,35 @@ defineProps({
   }
 })
 
-useHead({
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
-
 useSeoMeta({
   title: 'Page not found',
-  description: 'We are sorry but this page could not be found.'
+  description: 'We could not find that page.'
 })
-
-const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'), {
-  transform: data => data.find(item => item.path === '/docs')?.children || []
-})
-const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
-  server: false
-})
-
-const links = [{
-  label: 'Docs',
-  icon: 'i-lucide-book',
-  to: '/docs/getting-started'
-}, {
-  label: 'Pricing',
-  icon: 'i-lucide-credit-card',
-  to: '/pricing'
-}, {
-  label: 'Blog',
-  icon: 'i-lucide-pencil',
-  to: '/blog'
-}]
 </script>
 
 <template>
-  <div>
+  <div class="min-h-screen bg-[#f7f9fc] text-slate-900">
     <AppHeader />
 
-    <UMain>
-      <UContainer>
-        <UPage>
-          <UError :error="error" />
-        </UPage>
-      </UContainer>
-    </UMain>
+    <main class="mx-auto flex max-w-3xl items-center px-4 py-20 sm:px-6 lg:px-8">
+      <UCard class="w-full rounded-[2rem] border border-slate-200 bg-white p-8 text-center shadow-sm">
+        <p class="text-sm font-semibold uppercase tracking-[0.28em] text-amber-600">
+          404
+        </p>
+        <h1 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+          Page not found
+        </h1>
+        <p class="mt-4 text-sm leading-7 text-slate-600">
+          The page you are looking for does not exist or has moved.
+        </p>
+
+        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <UButton to="/" label="Back home" color="primary" />
+          <UButton to="/login" label="Open app" color="neutral" variant="soft" />
+        </div>
+      </UCard>
+    </main>
 
     <AppFooter />
-
-    <ClientOnly>
-      <LazyUContentSearch
-        :files="files"
-        shortcut="meta_k"
-        :navigation="navigation"
-        :links="links"
-        :fuse="{ resultLimit: 42 }"
-      />
-    </ClientOnly>
-
-    <UToaster />
   </div>
 </template>
