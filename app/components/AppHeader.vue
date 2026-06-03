@@ -1,12 +1,12 @@
+<!-- app/components/AppHeader.vue -->
 <script setup lang="ts">
 const menuOpen = ref(false)
 
 const links = [
   { label: 'Home', to: '/' },
-  { label: 'About Us', to: '#about' },
+  { label: 'Features', to: '#features' },
+  { label: 'How it works', to: '#how-it-works' },
   { label: 'Security', to: '#security' },
-  { label: 'How it Works', to: '#how-it-works' },
-  { label: 'Support', to: '#support' },
   { label: 'Contact', to: '#contact' }
 ]
 
@@ -16,7 +16,7 @@ function closeMenu() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
+  <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
     <UContainer class="relative flex items-center justify-between gap-3 py-3 md:py-4">
       <NuxtLink to="/" class="flex items-center gap-3">
         <img src="/logo.png" alt="Goldmen" class="h-9 w-auto md:h-10">
@@ -26,7 +26,7 @@ function closeMenu() {
         </div>
       </NuxtLink>
 
-      <nav class="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
+      <nav class="hidden items-center gap-8 text-sm font-medium text-slate-600 lg:flex">
         <NuxtLink
           v-for="item in links"
           :key="item.label"
@@ -38,8 +38,8 @@ function closeMenu() {
       </nav>
 
       <div class="hidden items-center gap-2 md:flex">
-        <UButton to="/login" label="Login" color="neutral" variant="soft" />
-        <UButton to="/login" label="Open App" color="primary" />
+        <UButton to="/login" label="Sign in" color="neutral" variant="soft" />
+        <UButton to="/login" label="Open app" color="primary" />
       </div>
 
       <UButton
@@ -67,8 +67,8 @@ function closeMenu() {
           </NuxtLink>
 
           <div class="grid grid-cols-2 gap-3 pt-2">
-            <UButton to="/login" label="Login" color="neutral" variant="soft" block @click="closeMenu" />
-            <UButton to="/login" label="Open App" color="primary" block @click="closeMenu" />
+            <UButton to="/login" label="Sign in" color="neutral" variant="soft" block @click="closeMenu" />
+            <UButton to="/login" label="Open app" color="primary" block @click="closeMenu" />
           </div>
         </div>
       </div>

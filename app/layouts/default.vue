@@ -1,5 +1,6 @@
+<!-- app/layouts/default.vue -->
 <template>
-  <div class="min-h-screen bg-[#f7f9fc] text-slate-900">
+  <div class="min-h-screen bg-white text-slate-950">
     <AppHeader />
     <main>
       <slot />
