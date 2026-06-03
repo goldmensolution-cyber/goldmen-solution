@@ -21,12 +21,6 @@ export default defineNuxtConfig({
     }
   },
 
-  routeRules: {
-    '/app/**': { ssr: false },
-    '/login': { ssr: false },
-    '/signup': { redirect: '/login' }
-  },
-
   compatibilityDate: '2024-07-11',
 
   nitro: {
