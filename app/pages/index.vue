@@ -1,173 +1,322 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Goldmen',
-  description: 'A cleaner way to buy airtime with a premium Goldmen finish.'
+  description: 'Secure airtime top-ups for approved numbers with Goldmen.'
 })
 
-const features = [
-  {
-    title: 'Clear purchase flow',
-    description: 'Sender number, recipient number, and amount are captured in a focused form with a generated transaction reference.'
-  },
-  {
-    title: 'Controlled access',
-    description: 'The buying experience stays behind sign-in while the public site remains polished and lightweight.'
-  },
-  {
-    title: 'Blue and gold branding',
-    description: 'A premium palette that matches the new logo and replaces the old red styling.'
-  }
-]
-
 const steps = [
-  'Sign in with Google or another enabled provider.',
-  'Enter sender number, recipient number, and amount.',
-  'Goldmen creates a `GOL-` reference and sends the request to your backend edge function.'
-]
-
-const safeguards = [
-  'Phone number edits use the interim request-change flow.',
-  'The verified sender number stays protected until you approve a change.',
-  'The website-generated reference tags the transaction origin for clean auditing.'
+  {
+    title: 'Login',
+    description: 'Sign in to Goldmen and open your controlled purchase dashboard.'
+  },
+  {
+    title: 'Enter details',
+    description: 'Add sender number, recipient number and airtime amount.'
+  },
+  {
+    title: 'Pay with M-Pesa',
+    description: 'Complete the transaction securely through M-Pesa.'
+  },
+  {
+    title: 'Get airtime',
+    description: 'Airtime is sent instantly to the approved recipient number.'
+  }
 ]
 </script>
 
 <template>
-  <div>
-    <section class="relative overflow-hidden">
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(212,175,55,.20),_transparent_35%),radial-gradient(circle_at_bottom_left,_rgba(59,130,246,.22),_transparent_38%)]" />
+  <div class="bg-slate-950 text-slate-100">
+    <section class="bg-white text-slate-950">
+      <div class="relative overflow-hidden">
+        <div
+          class="pointer-events-none absolute inset-x-0 top-0 h-72 bg-linear-to-b from-amber-200/30 to-transparent"
+        />
 
-      <UContainer class="relative py-16 md:py-24 lg:py-28">
-        <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_.95fr]">
-          <div class="text-center lg:text-left">
-            <UBadge color="neutral" variant="subtle" class="border border-white/10 bg-white/5 text-slate-200">
-              Goldmen airtime platform
-            </UBadge>
+        <UContainer class="relative py-20 lg:py-24">
+          <div class="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
+            <div class="max-w-2xl">
+              <div
+                class="inline-flex items-center gap-3 rounded-full border border-amber-400/20 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700"
+              >
+                <span
+                  class="inline-flex h-2.5 w-2.5 rounded-full bg-amber-500"
+                />
+                Airtime purchases for approved numbers only
+              </div>
 
-            <h1 class="mt-6 text-4xl font-semibold tracking-tight text-white md:text-6xl">
-              A cleaner way to buy airtime with a premium Goldmen finish.
-            </h1>
+              <h1 class="mt-8 text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
+                Buy airtime securely with Goldmen.
+              </h1>
 
-            <p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-300 md:text-lg md:leading-8 lg:mx-0">
-              Public landing page on the outside, authenticated buying experience on the inside, and a request-change flow that keeps sender numbers controlled until your backend review path is ready.
-            </p>
+              <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                A polished public homepage with a sign-in protected app, M-Pesa checkout, and an audit-ready transaction reference for every top-up.
+              </p>
 
-            <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:flex lg:flex-row">
-              <UButton to="/login" size="xl" label="Continue with Google" icon="i-simple-icons-google" block />
-              <UButton to="/app" size="xl" label="Open app" color="neutral" variant="soft" block />
+              <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+                <UButton
+                  to="/app"
+                  size="xl"
+                  label="Open app"
+                  color="primary"
+                />
+                <UButton
+                  to="/login"
+                  size="xl"
+                  label="Login"
+                  color="neutral"
+                  variant="soft"
+                />
+              </div>
+
+              <div class="mt-10 grid gap-4 sm:grid-cols-3">
+                <div class="rounded-3xl border border-slate-200/70 bg-slate-50 p-5">
+                  <p class="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Secure
+                  </p>
+                  <p class="mt-3 text-lg font-semibold text-slate-950">
+                    M-Pesa powered
+                  </p>
+                </div>
+                <div class="rounded-3xl border border-slate-200/70 bg-slate-50 p-5">
+                  <p class="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Access
+                  </p>
+                  <p class="mt-3 text-lg font-semibold text-slate-950">
+                    Login only
+                  </p>
+                </div>
+                <div class="rounded-3xl border border-slate-200/70 bg-slate-50 p-5">
+                  <p class="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    Reference
+                  </p>
+                  <p class="mt-3 text-lg font-semibold text-slate-950">
+                    Audit-ready
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <p class="mt-4 text-sm text-slate-400">
-              Sender number, recipient number, amount, and a generated transaction reference.
+            <div class="relative mx-auto w-full max-w-130">
+              <div
+                class="absolute -left-10 top-6 h-40 w-40 rounded-full bg-amber-300/20 blur-3xl"
+              />
+              <div
+                class="absolute -right-10 bottom-8 h-40 w-40 rounded-full bg-slate-900/10 blur-3xl"
+              />
+
+              <div class="overflow-hidden rounded-4xl border border-slate-200/20 bg-slate-950 shadow-2xl">
+                <img
+                  src="/hero-phone-placeholder.svg"
+                  alt="Goldmen app preview"
+                  class="h-155 w-full object-cover"
+                >
+              </div>
+
+              <UCard class="mt-6 rounded-3xl border border-slate-200/20 bg-slate-950/95 p-5 shadow-xl">
+                <div class="flex items-center justify-between gap-4">
+                  <div>
+                    <p class="text-xs uppercase tracking-[0.24em] text-amber-300">
+                      Dashboard preview
+                    </p>
+                    <p class="mt-2 text-lg font-semibold text-white">
+                      Airtime purchase, history and controls all in one place.
+                    </p>
+                  </div>
+                  <span
+                    class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-amber-400/15 text-amber-300"
+                  >
+                    New
+                  </span>
+                </div>
+              </UCard>
+            </div>
+          </div>
+        </UContainer>
+      </div>
+    </section>
+
+    <section
+      id="features"
+      class="border-t border-slate-200/10 bg-slate-950 py-20 text-white"
+    >
+      <UContainer>
+        <div class="grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+          <div class="max-w-2xl">
+            <p class="text-sm uppercase tracking-[0.3em] text-amber-300">
+              What you get
+            </p>
+            <h2 class="mt-3 text-4xl font-semibold text-white">
+              The experience teams expect from a premium airtime service.
+            </h2>
+            <p class="mt-5 text-lg leading-8 text-slate-300">
+              Fast top-ups, protected sender numbers and a clean purchase path that keeps your business in control.
             </p>
           </div>
 
-          <UCard class="border border-white/10 bg-white/5 shadow-2xl backdrop-blur">
-            <div class="space-y-5 p-2 sm:p-4">
-              <div class="rounded-3xl border border-white/10 bg-slate-950/80 p-5 sm:p-6">
-                <p class="text-xs uppercase tracking-[0.25em] text-amber-300">Reference</p>
-                <p class="mt-3 break-all text-2xl font-semibold text-white sm:text-3xl">GOL-8K4P9Q2D</p>
-                <p class="mt-2 text-sm leading-6 text-slate-400">Website-generated origin tag for STK auditing.</p>
-              </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <UCard class="rounded-4xl border border-white/10 bg-slate-900/80 p-6">
+              <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+                Billing
+              </p>
+              <p class="mt-4 text-xl font-semibold text-white">
+                Transaction references
+              </p>
+              <p class="mt-3 text-sm leading-7 text-slate-300">
+                Each airtime request gets a unique GOL- reference for reliable audit and reconciliation.
+              </p>
+            </UCard>
+            <UCard class="rounded-4xl border border-white/10 bg-slate-900/80 p-6">
+              <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+                Control
+              </p>
+              <p class="mt-4 text-xl font-semibold text-white">
+                Approved numbers only
+              </p>
+              <p class="mt-3 text-sm leading-7 text-slate-300">
+                The app only allows top-ups to numbers approved by your team.
+              </p>
+            </UCard>
+          </div>
+        </div>
 
-              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div class="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
-                  <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Brand</p>
-                  <p class="mt-2 text-base font-medium text-white">Blue + gold</p>
-                </div>
-                <div class="rounded-2xl border border-white/10 bg-slate-950/70 p-4">
-                  <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Access</p>
-                  <p class="mt-2 text-base font-medium text-white">Google auth + extras</p>
-                </div>
-              </div>
-
-              <div class="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-4 text-sm leading-6 text-amber-100">
-                Sender-number changes are routed through the interim request-change flow so the verified number stays protected.
-              </div>
-            </div>
+        <div class="mt-16 grid gap-4 md:grid-cols-3">
+          <UCard class="rounded-4xl border border-slate-200/10 bg-slate-900/80 p-6">
+            <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+              Secure payments
+            </p>
+            <p class="mt-4 text-xl font-semibold text-white">
+              M-Pesa integration
+            </p>
+            <p class="mt-3 text-sm leading-7 text-slate-300">
+              Pay safely through Kenya’s most trusted mobile money network.
+            </p>
+          </UCard>
+          <UCard class="rounded-4xl border border-slate-200/10 bg-slate-900/80 p-6">
+            <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+              Fast delivery
+            </p>
+            <p class="mt-4 text-xl font-semibold text-white">
+              Instant top-ups
+            </p>
+            <p class="mt-3 text-sm leading-7 text-slate-300">
+              Airtime is delivered immediately to the recipient after payment.
+            </p>
+          </UCard>
+          <UCard class="rounded-4xl border border-slate-200/10 bg-slate-900/80 p-6">
+            <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+              Trusted service
+            </p>
+            <p class="mt-4 text-xl font-semibold text-white">
+              Team-ready workflow
+            </p>
+            <p class="mt-3 text-sm leading-7 text-slate-300">
+              A clean interface built for business users and operators.
+            </p>
           </UCard>
         </div>
       </UContainer>
     </section>
 
-    <section id="features" class="border-t border-white/10 bg-slate-950/70">
-      <UContainer class="py-16 md:py-20">
-        <div class="mb-8 max-w-2xl">
-          <p class="text-sm uppercase tracking-[0.3em] text-amber-300">What changed</p>
-          <h2 class="mt-3 text-3xl font-semibold text-white">Designed for the new Goldmen direction.</h2>
+    <section class="bg-slate-950 py-20 text-white">
+      <UContainer>
+        <div class="max-w-3xl">
+          <p class="text-sm uppercase tracking-[0.3em] text-amber-300">
+            How it works
+          </p>
+          <h2 class="mt-3 text-4xl font-semibold text-white">
+            A simple four-step airtime flow.
+          </h2>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-3">
-          <UCard
-            v-for="feature in features"
-            :key="feature.title"
-            class="border border-white/10 bg-white/5"
+        <div class="mt-12 grid gap-4 lg:grid-cols-2">
+          <div
+            v-for="(step, index) in steps"
+            :key="step.title"
+            class="rounded-4xl border border-white/10 bg-slate-900/80 p-6"
           >
-            <h3 class="text-lg font-semibold text-white">{{ feature.title }}</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-300">{{ feature.description }}</p>
-          </UCard>
-        </div>
-      </UContainer>
-    </section>
-
-    <section id="how-it-works" class="border-t border-white/10 bg-slate-950">
-      <UContainer class="py-16 md:py-20">
-        <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
-          <div>
-            <p class="text-sm uppercase tracking-[0.3em] text-amber-300">How it works</p>
-            <h2 class="mt-3 text-3xl font-semibold text-white">A straight path from login to STK push.</h2>
-          </div>
-
-          <div class="space-y-4">
-            <div
-              v-for="(step, index) in steps"
-              :key="step"
-              class="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-5"
-            >
-              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-400/15 text-sm font-semibold text-amber-300">
+            <div class="flex items-center gap-4">
+              <div
+                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-400/15 text-amber-300"
+              >
                 {{ index + 1 }}
               </div>
-              <p class="text-sm leading-7 text-slate-300">{{ step }}</p>
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300">
+                  Step {{ index + 1 }}
+                </p>
+                <h3 class="mt-2 text-xl font-semibold text-white">
+                  {{ step.title }}
+                </h3>
+              </div>
             </div>
+            <p class="mt-4 text-sm leading-7 text-slate-300">
+              {{ step.description }}
+            </p>
           </div>
         </div>
       </UContainer>
     </section>
 
-    <section id="security" class="border-t border-white/10 bg-slate-950/70">
-      <UContainer class="py-16 md:py-20">
-        <div class="max-w-2xl">
-          <p class="text-sm uppercase tracking-[0.3em] text-amber-300">Safeguards</p>
-          <h2 class="mt-3 text-3xl font-semibold text-white">Built around the current phone-number control flow.</h2>
-        </div>
+    <section class="border-t border-slate-200/10 bg-slate-950 py-20 text-white">
+      <UContainer>
+        <div class="grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-center">
+          <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-amber-300">
+              Ready to get started?
+            </p>
+            <h2 class="mt-3 text-4xl font-semibold text-white">
+              Open the Goldmen app and start topping up approved numbers.
+            </h2>
+          </div>
 
-        <div class="mt-8 grid gap-4 md:grid-cols-3">
-          <UCard
-            v-for="item in safeguards"
-            :key="item"
-            class="border border-white/10 bg-white/5"
-          >
-            <p class="text-sm leading-7 text-slate-300">{{ item }}</p>
-          </UCard>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <UButton
+              to="/app"
+              size="xl"
+              label="Open app"
+              color="primary"
+              block
+            />
+            <UButton
+              to="/login"
+              size="xl"
+              label="Login"
+              color="neutral"
+              variant="soft"
+              block
+            />
+          </div>
         </div>
       </UContainer>
     </section>
 
-    <section class="border-t border-white/10 bg-slate-950">
-      <UContainer class="py-16 md:py-20">
-        <UCard class="border border-amber-400/20 bg-amber-400/5">
-          <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div class="text-center lg:text-left">
-              <p class="text-sm uppercase tracking-[0.3em] text-amber-300">Ready</p>
-              <h2 class="mt-3 text-3xl font-semibold text-white">Open the new Goldmen app.</h2>
-              <p class="mt-3 text-slate-300">The public site stays polished and the authenticated app handles the purchase journey.</p>
-            </div>
-            <div class="grid gap-3 sm:grid-cols-2 lg:flex">
-              <UButton to="/login" size="xl" label="Continue with Google" icon="i-simple-icons-google" block />
-              <UButton to="/app" size="xl" label="Open dashboard" color="neutral" variant="soft" block />
-            </div>
+    <section class="border-t border-slate-200/10 bg-slate-950 py-20 text-white">
+      <UContainer>
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="rounded-4xl border border-slate-200/10 bg-slate-900/80 p-8">
+            <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+              Buy on our Website / App
+            </p>
+            <p class="mt-4 text-2xl font-semibold text-white">
+              Open Web App
+            </p>
+            <p class="mt-3 text-sm leading-7 text-slate-300">
+              Best experience with full history, reports and account control.
+            </p>
           </div>
-        </UCard>
+
+          <div class="rounded-4xl border border-slate-200/10 bg-slate-900/80 p-8">
+            <p class="text-sm uppercase tracking-[0.24em] text-amber-300">
+              Buy via USSD
+            </p>
+            <p class="mt-4 text-2xl font-semibold text-white">
+              *4166283#
+            </p>
+            <p class="mt-3 text-sm leading-7 text-slate-300">
+              No internet? No problem. Buy airtime instantly from any phone.
+            </p>
+          </div>
+        </div>
       </UContainer>
     </section>
   </div>
