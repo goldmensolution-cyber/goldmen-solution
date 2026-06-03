@@ -22,7 +22,10 @@ const isActive = (to: string) => route.path === to
         class="flex flex-1 flex-col items-center gap-1 rounded-2xl px-3 py-2 text-xs font-medium transition"
         :class="isActive(item.to) ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'"
       >
-        <UIcon :name="item.icon" class="h-5 w-5" />
+        <UIcon
+          :name="item.icon"
+          class="h-5 w-5"
+        />
         <span>{{ item.label }}</span>
       </NuxtLink>
 
@@ -30,7 +33,10 @@ const isActive = (to: string) => route.path === to
         class="flex flex-1 flex-col items-center gap-1 rounded-2xl px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100"
         @click="signOut"
       >
-        <UIcon name="i-lucide-log-out" class="h-5 w-5" />
+        <UIcon
+          name="i-lucide-log-out"
+          class="h-5 w-5"
+        />
         <span>Sign out</span>
       </button>
     </div>

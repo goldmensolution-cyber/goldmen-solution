@@ -1,12 +1,7 @@
-export default defineNuxtRouteMiddleware(async (to) => {
-  if (!to.path.startsWith('/app')) {
-    return
-  }
+export default defineNuxtRouteMiddleware((to) => {
+  const user = useSupabase().auth.getUser().catch(() => null)
 
-  const { user, bootstrap } = useAuth()
-  await bootstrap()
-
-  if (!user.value) {
-    return navigateTo('/login')
+  if (!user) {
+    return navigateTo(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
   }
 })
