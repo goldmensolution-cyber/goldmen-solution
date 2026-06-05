@@ -24,7 +24,7 @@ type GoogleCredentialResponse = {
   credential?: string
 }
 
-const supabase = useSupabase()
+const supabase = useSupabaseClient()
 const { bootstrap, user } = useAuth()
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -60,7 +60,7 @@ async function handleGoogleCredentialResponse(
 
     const { error } = await supabase.auth.signInWithIdToken({
       provider: 'google',
-      token: response.credential
+      id_token: response.credential
     })
 
     if (error) {

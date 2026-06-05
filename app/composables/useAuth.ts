@@ -4,7 +4,7 @@ let initialized = false
 let bootPromise: Promise<void> | null = null
 
 export const useAuth = () => {
-  const supabase = useSupabase()
+  const supabase = useSupabaseClient()
   const session = useState<Session | null>('goldmen-session', () => null)
   const user = useState<User | null>('goldmen-user', () => null)
   const ready = useState<boolean>('goldmen-auth-ready', () => false)

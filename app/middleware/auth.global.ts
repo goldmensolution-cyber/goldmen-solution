@@ -1,6 +1,8 @@
 // app/middleware/auth.global.ts
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (!to.path.startsWith('/app')) {
+  const protectedPrefix = '/app'
+
+  if (!to.path.startsWith(protectedPrefix)) {
     return
   }
 
