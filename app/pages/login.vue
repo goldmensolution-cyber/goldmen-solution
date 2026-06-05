@@ -1,3 +1,4 @@
+<!-- app/pages/login.vue -->
 <script setup lang="ts">
 definePageMeta({
   layout: false,
@@ -23,8 +24,8 @@ type GoogleCredentialResponse = {
   credential?: string
 }
 
-const supabase = useSupabaseClient()
-const user = useSupabaseUser()
+const supabase = useSupabase()
+const { bootstrap, user } = useAuth()
 const route = useRoute()
 const config = useRuntimeConfig()
 
@@ -68,14 +69,14 @@ async function handleGoogleCredentialResponse(
 
     await navigateTo(redirectTo.value, { replace: true })
   } catch (error) {
-    errorMessage.value =
-      error instanceof Error ? error.message : 'Google sign-in failed.'
+    errorMessage.value
+      = error instanceof Error ? error.message : 'Google sign-in failed.'
   } finally {
     loading.value = false
   }
 }
 
-function initGoogleButton() {
+async function initGoogleButton() {
   if (initialized.value || !googleButtonEl.value) {
     return
   }
@@ -102,6 +103,8 @@ function initGoogleButton() {
     auto_select: false
   })
 
+  googleButtonEl.value.innerHTML = ''
+
   google.accounts.id.renderButton(googleButtonEl.value, {
     type: 'standard',
     theme: 'outline',
@@ -113,31 +116,43 @@ function initGoogleButton() {
   })
 }
 
+async function loadGoogleScript() {
+  const existing = document.querySelector(
+    'script[src="https://accounts.google.com/gsi/client"]'
+  )
+
+  if (existing) {
+    return
+  }
+
+  await new Promise<void>((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.defer = true
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('Failed to load Google script.'))
+    document.head.appendChild(script)
+  })
+}
+
 onMounted(async () => {
+  await bootstrap()
+
   if (user.value) {
     await navigateTo(redirectTo.value, { replace: true })
     return
   }
 
-  const timeoutMs = 5_000
-  const start = Date.now()
-
-  while (!getGoogleApi()?.accounts?.id) {
-    if (Date.now() - start > timeoutMs) {
-      errorMessage.value =
-        'Google sign-in script did not load. Check network access.'
-      return
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 50))
-  }
-
-  initGoogleButton()
-})
-
-watchEffect(async () => {
-  if (user.value && route.path === '/login') {
-    await navigateTo(redirectTo.value, { replace: true })
+  try {
+    await loadGoogleScript()
+    await nextTick()
+    await initGoogleButton()
+  } catch (error) {
+    errorMessage.value
+      = error instanceof Error
+        ? error.message
+        : 'Google sign-in script did not load.'
   }
 })
 </script>
@@ -151,7 +166,11 @@ watchEffect(async () => {
     <UContainer class="flex min-h-screen items-center py-10">
       <div class="grid w-full gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
         <div class="max-w-2xl">
-          <UBadge color="amber" variant="soft" class="px-3 py-1.5">
+          <UBadge
+            color="primary"
+            variant="soft"
+            class="px-3 py-1.5"
+          >
             Goldmen Solution
           </UBadge>
 
@@ -161,38 +180,59 @@ watchEffect(async () => {
           </h1>
 
           <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
-            This uses the Google popup flow, returns an ID token to the page,
-            then exchanges that token with Supabase before redirecting you to
-            your app.
+            This uses the Google Identity Services button, returns an ID token
+            to the page, then exchanges that token with Supabase before
+            redirecting you to your app.
           </p>
 
           <div class="mt-8 grid gap-3 sm:grid-cols-3">
             <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <div class="flex items-center gap-3">
-                <UIcon name="i-lucide-shield-check" class="h-5 w-5 text-amber-600" />
+                <UIcon
+                  name="i-lucide-shield-check"
+                  class="h-5 w-5 text-amber-600"
+                />
                 <div>
-                  <p class="text-sm font-semibold">Direct Google flow</p>
-                  <p class="text-sm text-slate-500">No Supabase redirect screen</p>
+                  <p class="text-sm font-semibold">
+                    Direct Google flow
+                  </p>
+                  <p class="text-sm text-slate-500">
+                    No redirect detour
+                  </p>
                 </div>
               </div>
             </div>
 
             <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <div class="flex items-center gap-3">
-                <UIcon name="i-lucide-key-round" class="h-5 w-5 text-amber-600" />
+                <UIcon
+                  name="i-lucide-key-round"
+                  class="h-5 w-5 text-amber-600"
+                />
                 <div>
-                  <p class="text-sm font-semibold">Token exchange</p>
-                  <p class="text-sm text-slate-500">Google token to Supabase</p>
+                  <p class="text-sm font-semibold">
+                    Token exchange
+                  </p>
+                  <p class="text-sm text-slate-500">
+                    Google token to Supabase
+                  </p>
                 </div>
               </div>
             </div>
 
             <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <div class="flex items-center gap-3">
-                <UIcon name="i-lucide-globe" class="h-5 w-5 text-amber-600" />
+                <UIcon
+                  name="i-lucide-globe"
+                  class="h-5 w-5 text-amber-600"
+                />
                 <div>
-                  <p class="text-sm font-semibold">Multi-domain ready</p>
-                  <p class="text-sm text-slate-500">Use the same backend safely</p>
+                  <p class="text-sm font-semibold">
+                    Multi-domain ready
+                  </p>
+                  <p class="text-sm text-slate-500">
+                    Same backend, separate sessions
+                  </p>
                 </div>
               </div>
             </div>
@@ -202,22 +242,30 @@ watchEffect(async () => {
         <UCard class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,.10)]">
           <div class="flex items-center gap-3">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100">
-              <UIcon name="i-simple-icons-google" class="h-6 w-6 text-amber-700" />
+              <UIcon
+                name="i-simple-icons-google"
+                class="h-6 w-6 text-amber-700"
+              />
             </div>
             <div>
-              <p class="text-sm font-semibold text-slate-950">Continue with Google</p>
+              <p class="text-sm font-semibold text-slate-950">
+                Continue with Google
+              </p>
               <p class="text-sm text-slate-500">
-                The button below uses the official Google button renderer.
+                The button below uses the official Google renderer.
               </p>
             </div>
           </div>
 
           <div class="mt-8 rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6">
-            <div ref="googleButtonEl" class="flex justify-center" />
+            <div
+              ref="googleButtonEl"
+              class="flex justify-center"
+            />
 
             <p class="mt-4 text-center text-sm leading-6 text-slate-500">
-              By continuing, Google returns an ID token to this page, then Supabase
-              creates or resumes the session.
+              By continuing, Google returns an ID token to this page, then
+              Supabase creates or resumes the session.
             </p>
           </div>
 
