@@ -41,5 +41,11 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
+  },
+  icon: {
+    customCollections: [{
+      prefix: 'custom',
+      dir: './app/assets/icons'
+    }]
   }
 })
