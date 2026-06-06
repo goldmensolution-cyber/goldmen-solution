@@ -1,11 +1,12 @@
-<!-- app/components/AppFooter.vue -->
 <script setup lang="ts">
+import mpesaLogo from '~/assets/icons/mpesa.svg'
+
 const quickLinks = [
-  { label: 'About Us', to: '#features' },
-  { label: 'How It Works', to: '#how-it-works' },
-  { label: 'Security', to: '#security' },
-  { label: 'Support', to: '#contact' },
-  { label: 'Contact', to: '#contact' }
+  { label: 'About Us', to: '/#features' },
+  { label: 'How It Works', to: '/#how-it-works' },
+  { label: 'Security', to: '/#security' },
+  { label: 'Support', to: '/#support' },
+  { label: 'Contact', to: '/#contact' }
 ]
 
 const supportLinks = [
@@ -19,7 +20,7 @@ const supportLinks = [
 <template>
   <footer
     id="contact"
-    class="bg-slate-950 text-white"
+    class="scroll-mt-24 bg-slate-950 text-white"
   >
     <UContainer class="py-12">
       <div class="grid gap-10 lg:grid-cols-[1.2fr_.8fr_.8fr_1fr]">
@@ -139,9 +140,20 @@ const supportLinks = [
         </div>
       </div>
 
-      <div class="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <div class="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
         <p>© {{ new Date().getFullYear() }} Goldmen Solution. All rights reserved.</p>
-        <p>Powered by M-Pesa</p>
+
+        <div class="flex items-center gap-2">
+          <span>Powered by</span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white">
+            <img
+              :src="mpesaLogo"
+              alt="M-Pesa"
+              class="h-4 w-auto"
+            >
+            <span class="text-xs font-semibold tracking-wide">M-Pesa</span>
+          </span>
+        </div>
       </div>
     </UContainer>
   </footer>

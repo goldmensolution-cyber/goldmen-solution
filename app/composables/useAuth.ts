@@ -15,8 +15,14 @@ export const useAuth = () => {
     ready.value = true
   }
 
+  const setSession = (nextSession: Session | null) => {
+    sync(nextSession)
+  }
+
   const bootstrap = async () => {
-    if (bootPromise) return bootPromise
+    if (bootPromise) {
+      return bootPromise
+    }
 
     bootPromise = (async () => {
       const { data } = await supabase.auth.getSession()
@@ -44,6 +50,7 @@ export const useAuth = () => {
     user,
     ready,
     bootstrap,
+    setSession,
     signOut
   }
 }

@@ -1,5 +1,6 @@
-<!-- app/pages/login.vue -->
 <script setup lang="ts">
+import type { ButtonProps } from '@nuxt/ui'
+
 definePageMeta({
   layout: false,
   colorMode: 'light'
@@ -25,19 +26,37 @@ type GoogleCredentialResponse = {
 }
 
 const supabase = useSupabaseClient()
-const { bootstrap, user } = useAuth()
+const { bootstrap, user, setSession } = useAuth()
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const googleButtonEl = ref<HTMLDivElement | null>(null)
 const errorMessage = ref('')
 const loading = ref(false)
 const initialized = ref(false)
+const redirecting = ref(false)
 
 const redirectTo = computed(() => {
   const value = route.query.redirect
+
   return typeof value === 'string' && value.startsWith('/') ? value : '/app'
 })
+
+const googleClientId = computed(() => {
+  return String(config.public.googleClientId || '').trim()
+})
+
+const providers = computed<ButtonProps[]>(() => [
+  {
+    label: loading.value ? 'Signing in…' : 'Continue with Google',
+    icon: 'i-simple-icons-google',
+    color: 'neutral',
+    variant: 'outline',
+    block: true,
+    loading: loading.value,
+    disabled: loading.value,
+    onClick: startGoogleLogin
+  }
+])
 
 function getGoogleApi(): any {
   if (typeof window === 'undefined') {
@@ -45,75 +64,6 @@ function getGoogleApi(): any {
   }
 
   return (window as Window & { google?: any }).google || null
-}
-
-async function handleGoogleCredentialResponse(
-  response: GoogleCredentialResponse
-) {
-  try {
-    loading.value = true
-    errorMessage.value = ''
-
-    if (!response.credential) {
-      throw new Error('Google did not return an ID token.')
-    }
-
-    const { error } = await supabase.auth.signInWithIdToken({
-      provider: 'google',
-      id_token: response.credential
-    })
-
-    if (error) {
-      throw error
-    }
-
-    await navigateTo(redirectTo.value, { replace: true })
-  } catch (error) {
-    errorMessage.value
-      = error instanceof Error ? error.message : 'Google sign-in failed.'
-  } finally {
-    loading.value = false
-  }
-}
-
-async function initGoogleButton() {
-  if (initialized.value || !googleButtonEl.value) {
-    return
-  }
-
-  const google = getGoogleApi()
-
-  if (!google?.accounts?.id) {
-    return
-  }
-
-  const clientId = String(config.public.googleClientId || '').trim()
-
-  if (!clientId) {
-    errorMessage.value = 'Missing NUXT_PUBLIC_GOOGLE_CLIENT_ID.'
-    return
-  }
-
-  initialized.value = true
-
-  google.accounts.id.initialize({
-    client_id: clientId,
-    callback: handleGoogleCredentialResponse,
-    ux_mode: 'popup',
-    auto_select: false
-  })
-
-  googleButtonEl.value.innerHTML = ''
-
-  google.accounts.id.renderButton(googleButtonEl.value, {
-    type: 'standard',
-    theme: 'outline',
-    size: 'large',
-    text: 'signin_with',
-    shape: 'pill',
-    logo_alignment: 'left',
-    width: 360
-  })
 }
 
 async function loadGoogleScript() {
@@ -136,23 +86,108 @@ async function loadGoogleScript() {
   })
 }
 
-onMounted(async () => {
-  await bootstrap()
+async function handleGoogleCredentialResponse(
+  response: GoogleCredentialResponse
+) {
+  try {
+    if (!response.credential) {
+      throw new Error('Google did not return an ID token.')
+    }
 
-  if (user.value) {
-    await navigateTo(redirectTo.value, { replace: true })
+    const { data, error } = await supabase.auth.signInWithIdToken({
+      provider: 'google',
+      id_token: response.credential
+    })
+
+    if (error) {
+      throw error
+    }
+
+    setSession(data.session ?? null)
+    errorMessage.value = ''
+  } catch (error) {
+    errorMessage.value
+      = error instanceof Error ? error.message : 'Google sign-in failed.'
+  } finally {
+    loading.value = false
+  }
+}
+
+async function initGoogleAuth() {
+  if (initialized.value) {
+    return
+  }
+
+  if (!googleClientId.value) {
+    throw new Error('Missing NUXT_PUBLIC_GOOGLE_CLIENT_ID.')
+  }
+
+  const google = getGoogleApi()
+
+  if (!google?.accounts?.id) {
+    throw new Error('Google Identity Services could not be loaded.')
+  }
+
+  google.accounts.id.initialize({
+    client_id: googleClientId.value,
+    callback: handleGoogleCredentialResponse,
+    auto_select: false,
+    cancel_on_tap_outside: true
+  })
+
+  initialized.value = true
+}
+
+async function startGoogleLogin() {
+  if (loading.value) {
     return
   }
 
   try {
+    loading.value = true
+    errorMessage.value = ''
+
     await loadGoogleScript()
-    await nextTick()
-    await initGoogleButton()
+    await initGoogleAuth()
+
+    const google = getGoogleApi()
+
+    google.accounts.id.prompt((notification: any) => {
+      if (
+        notification.isNotDisplayed?.() ||
+        notification.isSkippedMoment?.() ||
+        notification.isDismissedMoment?.()
+      ) {
+        loading.value = false
+        errorMessage.value = 'Google sign-in was not completed.'
+      }
+    })
   } catch (error) {
+    loading.value = false
     errorMessage.value
-      = error instanceof Error
-        ? error.message
-        : 'Google sign-in script did not load.'
+      = error instanceof Error ? error.message : 'Google sign-in failed.'
+  }
+}
+
+watch(
+  user,
+  async (value) => {
+    if (!value || redirecting.value) {
+      return
+    }
+
+    redirecting.value = true
+    await navigateTo(redirectTo.value, { replace: true })
+  },
+  { immediate: true }
+)
+
+onMounted(async () => {
+  await bootstrap()
+
+  if (user.value && !redirecting.value) {
+    redirecting.value = true
+    await navigateTo(redirectTo.value, { replace: true })
   }
 })
 </script>
@@ -180,9 +215,9 @@ onMounted(async () => {
           </h1>
 
           <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
-            This uses the Google Identity Services button, returns an ID token
-            to the page, then exchanges that token with Supabase before
-            redirecting you to your app.
+            This uses the Google Identity Services native flow, exchanges the
+            returned ID token with Supabase, and then sends you straight into
+            the app.
           </p>
 
           <div class="mt-8 grid gap-3 sm:grid-cols-3">
@@ -197,7 +232,7 @@ onMounted(async () => {
                     Direct Google flow
                   </p>
                   <p class="text-sm text-slate-500">
-                    No redirect detour
+                    Native provider sign-in
                   </p>
                 </div>
               </div>
@@ -223,7 +258,7 @@ onMounted(async () => {
             <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <div class="flex items-center gap-3">
                 <UIcon
-                  name="i-lucide-globe"
+                  name="i-lucide-badge-check"
                   class="h-5 w-5 text-amber-600"
                 />
                 <div>
@@ -231,7 +266,7 @@ onMounted(async () => {
                     Multi-domain ready
                   </p>
                   <p class="text-sm text-slate-500">
-                    Same backend, separate sessions
+                    Same backend, separate domains
                   </p>
                 </div>
               </div>
@@ -240,61 +275,59 @@ onMounted(async () => {
         </div>
 
         <UCard class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,.10)]">
-          <div class="flex items-center gap-3">
-            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100">
-              <UIcon
-                name="i-simple-icons-google"
-                class="h-6 w-6 text-amber-700"
-              />
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-slate-950">
-                Continue with Google
-              </p>
-              <p class="text-sm text-slate-500">
-                The button below uses the official Google renderer.
-              </p>
-            </div>
-          </div>
+          <UAuthForm
+            title="Welcome back"
+            description="Sign in with Google to continue securely."
+            icon="i-lucide-shield-check"
+            :providers="providers"
+            :fields="[]"
+            separator="or"
+            :submit="{
+              label: 'Continue',
+              class: 'hidden'
+            }"
+            class="w-full"
+          >
+            <template #header>
+              <div class="space-y-2">
+                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-amber-500">
+                  Goldmen Solution
+                </p>
+                <p class="text-sm leading-6 text-slate-500">
+                  Use the Google native flow, then let Supabase resume your
+                  session without lingering on this page.
+                </p>
+              </div>
+            </template>
 
-          <div class="mt-8 rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-6">
-            <div
-              ref="googleButtonEl"
-              class="flex justify-center"
-            />
+            <template #footer>
+              <div class="space-y-3">
+                <UAlert
+                  v-if="errorMessage"
+                  color="red"
+                  variant="soft"
+                  icon="i-lucide-circle-alert"
+                  :title="errorMessage"
+                />
 
-            <p class="mt-4 text-center text-sm leading-6 text-slate-500">
-              By continuing, Google returns an ID token to this page, then
-              Supabase creates or resumes the session.
-            </p>
-          </div>
-
-          <UAlert
-            v-if="errorMessage"
-            color="red"
-            variant="soft"
-            icon="i-lucide-circle-alert"
-            class="mt-5"
-            :title="errorMessage"
-          />
-
-          <div class="mt-6 flex items-center justify-between gap-3">
-            <UButton
-              to="/"
-              color="neutral"
-              variant="ghost"
-              icon="i-lucide-arrow-left"
-              label="Back home"
-            />
-            <UButton
-              :loading="loading"
-              :disabled="loading"
-              color="primary"
-              icon="i-lucide-log-in"
-              label="Retry sign-in"
-              @click="initGoogleButton"
-            />
-          </div>
+                <div class="flex items-center justify-between gap-3">
+                  <UButton
+                    to="/"
+                    color="neutral"
+                    variant="ghost"
+                    icon="i-lucide-arrow-left"
+                    label="Back home"
+                  />
+                  <UButton
+                    to="/app"
+                    color="primary"
+                    variant="soft"
+                    label="Open app"
+                  />
+                </div>
+              </div>
+            </template>
+          </UAuthForm>
         </UCard>
       </div>
     </UContainer>
