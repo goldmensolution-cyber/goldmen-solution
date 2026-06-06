@@ -27,17 +27,19 @@ const links = [
 
     <UNavigationMenu :items="links" />
 
-    <UButton
-      to="/login"
-      label="Login"
-      color="neutral"
-      variant="outline"
-    />
-    <UButton
-      to="/login"
-      label="Open App"
-      trailing-icon="i-lucide-arrow-right"
-    />
+    <template #right>
+      <UButton
+        to="/login"
+        label="Login"
+        color="neutral"
+        variant="outline"
+      />
+      <UButton
+        to="/login"
+        label="Open App"
+        trailing-icon="i-lucide-arrow-right"
+      />
+    </template>
     <template #body>
       <UNavigationMenu
         :items="links"
