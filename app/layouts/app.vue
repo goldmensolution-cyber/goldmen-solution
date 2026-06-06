@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const open = ref(true)
 
 const navItems = [
   { label: 'Buy Airtime', icon: 'i-lucide-signal', to: '/app' },
@@ -23,103 +24,106 @@ const pageTitle = computed(() => titleMap[route.path] ?? 'Goldmen App')
 </script>
 
 <template>
-  <UDashboardGroup class="min-h-svh bg-slate-50">
-    <UDashboardSidebar
-      collapsible
-      class="border-e border-slate-800/60 bg-slate-950 text-white"
-    >
-      <template #header>
-        <NuxtLink
-          to="/app"
-          class="flex items-center gap-3 px-2 py-1.5"
-        >
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-400 text-sm font-black text-slate-950"
+  <div class="min-h-screen bg-slate-50">
+    <div class="flex min-h-screen">
+      <USidebar
+        v-model:open="open"
+        variant="inset"
+        collapsible
+        side="left"
+        class="min-h-screen border-r border-slate-800/60 bg-slate-950 text-white"
+        :ui="{ container: 'min-h-screen flex flex-col justify-between' }"
+      >
+        <template #header>
+          <NuxtLink
+            to="/app"
+            class="flex items-center gap-3 px-4 py-4"
           >
-            G
-          </div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-400 text-sm font-black text-slate-950">
+              G
+            </div>
+            <div class="leading-tight">
+              <p class="text-sm font-semibold text-white">Goldmen Solution</p>
+              <p class="text-xs text-slate-300">Airtime control room</p>
+            </div>
+          </NuxtLink>
+        </template>
 
-          <div class="leading-tight">
-            <p class="text-sm font-semibold text-white">Goldmen Solution</p>
-            <p class="text-xs text-slate-300">Airtime control room</p>
-          </div>
-        </NuxtLink>
-      </template>
+        <UNavigationMenu
+          :items="navItems"
+          orientation="vertical"
+          class="px-2 py-4 text-white"
+          :ui="{ link: 'px-3 py-2 rounded-xl transition-colors hover:bg-slate-800' }"
+        />
 
-      <template #default>
-        <div class="px-2 py-4">
-          <UNavigationMenu
-            :items="navItems"
-            orientation="vertical"
-            class="text-white"
-          />
-        </div>
-      </template>
+        <template #footer>
+          <div class="p-4">
+            <UCard
+              variant="subtle"
+              class="border border-white/10 bg-white/5 text-white"
+            >
+              <template #header>
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-400/15 text-amber-300">
+                    <UIcon
+                      name="i-lucide-headphones"
+                      class="size-5"
+                    />
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold">
+                      Need support?
+                    </p>
+                    <p class="text-xs text-slate-300">
+                      Open the support page or log in to continue.
+                    </p>
+                  </div>
+                </div>
+              </template>
 
-      <template #footer>
-        <div class="p-4">
-          <UCard
-            variant="subtle"
-            class="border border-white/10 bg-white/5 text-white"
-          >
-            <template #header>
-              <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-400/15 text-amber-300">
-                  <UIcon
-                    name="i-lucide-headphones"
-                    class="size-5"
+              <template #footer>
+                <div class="flex gap-2">
+                  <UButton
+                    to="/app/support"
+                    label="Support"
+                    color="neutral"
+                    variant="solid"
+                    class="flex-1"
+                  />
+                  <UButton
+                    to="/login"
+                    label="Logout"
+                    color="neutral"
+                    variant="ghost"
+                    class="flex-1"
                   />
                 </div>
+              </template>
+            </UCard>
+          </div>
+        </template>
+      </USidebar>
 
-                <div>
-                  <p class="text-sm font-semibold">
-                    Need support?
-                  </p>
-                  <p class="text-xs text-slate-300">
-                    Open the support page or log in to continue.
-                  </p>
-                </div>
-              </div>
-            </template>
-
-            <template #footer>
-              <div class="flex gap-2">
-                <UButton
-                  to="/app/support"
-                  label="Support"
-                  color="neutral"
-                  variant="solid"
-                  class="flex-1"
-                />
-                <UButton
-                  to="/login"
-                  label="Logout"
-                  color="neutral"
-                  variant="ghost"
-                  class="flex-1"
-                />
-              </div>
-            </template>
-          </UCard>
-        </div>
-      </template>
-    </UDashboardSidebar>
-
-    <UDashboardPanel
-      id="goldmen-app-panel"
-      class="min-w-0 bg-slate-50"
-    >
-      <template #header>
-        <UDashboardNavbar
-          :title="pageTitle"
-          icon="i-lucide-layout-dashboard"
-          toggle-side="left"
-        >
-          <template #leading>
-            <UDashboardSidebarCollapse />
-          </template>
-
-          <template #right>
+      <div class="flex flex-1 flex-col overflow-hidden bg-slate-50">
+        <div class="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <div class="flex items-center gap-3">
+            <UButton
+              icon="i-lucide-menu"
+              color="neutral"
+              variant="ghost"
+              aria-label="Toggle sidebar"
+              @click="open = !open"
+            />
+            <div>
+              <p class="text-sm font-medium text-slate-600">
+                {{ pageTitle }}
+              </p>
+              <h1 class="text-xl font-semibold text-slate-950">
+                {{ pageTitle }}
+              </h1>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
             <UButton
               to="/"
               label="Website"
@@ -133,15 +137,13 @@ const pageTitle = computed(() => titleMap[route.path] ?? 'Goldmen App')
               color="neutral"
               variant="subtle"
             />
-          </template>
-        </UDashboardNavbar>
-      </template>
+          </div>
+        </div>
 
-      <template #body>
-        <div class="flex min-h-0 flex-1 flex-col gap-6 p-4 sm:p-6 lg:p-8">
+        <div class="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
           <slot />
         </div>
-      </template>
-    </UDashboardPanel>
-  </UDashboardGroup>
+      </div>
+    </div>
+  </div>
 </template>

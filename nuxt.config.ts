@@ -48,5 +48,16 @@ export default defineNuxtConfig({
       prefix: 'custom',
       dir: './app/assets/icons'
     }]
+  },
+  supabase: {
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      include: ['/app', '/app/**'],
+      exclude: ['/**'],
+      saveRedirectToCookie: false
+    }
+
   }
+
 })
