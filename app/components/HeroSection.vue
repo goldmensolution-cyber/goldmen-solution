@@ -20,7 +20,7 @@ const links = ref<ButtonProps[]>([
 <template>
   <UPageHero
     title="Buy airtime securely."
-    description="For approved numbers only."
+    description="A qquich and easy way to buy airtime on the go.supports all major kenyan providers"
     orientation="horizontal"
     :links="links"
   >
