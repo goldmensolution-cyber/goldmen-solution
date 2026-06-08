@@ -128,13 +128,13 @@ const supportLinks = [
           </p>
           <div class="mt-4 rounded-[1.4rem] border border-white/10 bg-white p-5 text-slate-950 shadow-sm">
             <p class="text-3xl font-black tracking-tight text-slate-950">
-              *4166283#
+              Paybill 4166283
             </p>
             <p class="mt-2 text-sm font-semibold text-slate-700">
-              Paybill: 4166283
+              Use Lipa Na M-Pesa, the M-Pesa app, Airtel Money, or T-kash.
             </p>
             <p class="mt-2 text-sm leading-6 text-slate-600">
-              Available 24/7 on any phone.
+              Enter the recipient phone number as the account number.
             </p>
           </div>
         </div>
@@ -145,13 +145,12 @@ const supportLinks = [
 
         <div class="flex items-center gap-2">
           <span>Powered by</span>
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white">
+          <span class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-white">
             <img
               :src="mpesaLogo"
               alt="M-Pesa"
               class="h-4 w-auto"
             >
-            <span class="text-xs font-semibold tracking-wide">M-Pesa</span>
           </span>
         </div>
       </div>
