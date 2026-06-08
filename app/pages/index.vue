@@ -123,7 +123,8 @@ const buyOptions: CardItem[] = [
   },
   {
     title: 'Buy via USSD',
-    description: 'Use *4166283# on any phone, even without internet.',
+    description:
+      'Use Lipa Na M-Pesa USSD (*3#), the M-Pesa app, Airtel Money, or T-kash. Send airtime to the recipient phone number using paybill 4166283.',
     icon: 'i-lucide-phone-call'
   }
 ]
@@ -187,15 +188,9 @@ const buyOptions: CardItem[] = [
       >
         <UContainer>
           <div class="mx-auto max-w-2xl text-center">
-            <p class="text-sm font-semibold uppercase tracking-[0.3em] text-amber-600">
+            <h2 class="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
               How it works
-            </p>
-            <h2 class="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-              Four simple steps.
             </h2>
-            <p class="mt-4 text-base leading-7 text-slate-600">
-              The flow stays short and controlled from login through payment and delivery.
-            </p>
           </div>
 
           <div class="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-4">
@@ -218,7 +213,7 @@ const buyOptions: CardItem[] = [
                   />
                 </UChip>
 
-                <h3 class="mt-4 text-lg font-bold text-slate-950">
+                <h3 class="mt-6 text-lg font-bold text-slate-950">
                   {{ step.title }}
                 </h3>
 
@@ -254,13 +249,10 @@ const buyOptions: CardItem[] = [
         class="scroll-mt-24 px-4 py-16 sm:py-20"
       >
         <UContainer>
-          <div class="mb-10 max-w-3xl">
+          <div class="mb-10 max-w-3xl text-center mx-auto">
             <h2 class="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
               Ways to buy airtime
             </h2>
-            <p class="mt-4 text-base leading-7 text-slate-600">
-              Keep the checkout experience consistent whether people use the web app or a basic phone.
-            </p>
           </div>
 
           <div class="grid gap-4 sm:grid-cols-2">
@@ -311,10 +303,10 @@ const buyOptions: CardItem[] = [
 
               <template v-else>
                 <div class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-lg font-semibold tracking-widest text-emerald-700">
-                  *4166283#
+                  Paybill 4166283
                 </div>
                 <p class="mt-3 text-sm text-slate-600">
-                  Paybill: <span class="font-semibold text-slate-950">4166283</span>
+                  Use Lipa Na M-Pesa, the M-Pesa app, Airtel Money, or T-kash. Enter the recipient phone number as the account number.
                 </p>
               </template>
             </UCard>
@@ -324,22 +316,29 @@ const buyOptions: CardItem[] = [
 
       <section
         id="download"
-        class="scroll-mt-24 px-4 py-16 sm:py-20"
+        class="relative scroll-mt-24 px-4 py-16 sm:py-20"
       >
+        <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden lg:hidden">
+          <img
+            src="/pngegg(5).png"
+            alt=""
+            class="h-full w-full object-cover opacity-20"
+          >
+        </div>
         <UContainer>
           <div class="grid gap-10 lg:grid-cols-[.95fr_1.05fr] lg:items-center">
-            <div class="space-y-6">
+            <div class="space-y-6 text-center">
               <p class="text-sm font-semibold uppercase tracking-[0.3em] text-amber-600">
                 Get it on Google Play
               </p>
               <h2 class="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
                 Download the Goldmen app for faster airtime top-ups.
               </h2>
-              <p class="max-w-xl text-base leading-7 text-slate-600">
+              <p class="mx-auto max-w-xl text-base leading-7 text-slate-600">
                 Use the mobile app to purchase airtime instantly, track approved numbers, and keep a clear transaction history.
               </p>
 
-              <div class="flex flex-wrap gap-3">
+              <div class="flex flex-wrap justify-center gap-3">
                 <UButton
                   to="/app"
                   label="Open Web App"
@@ -358,47 +357,13 @@ const buyOptions: CardItem[] = [
                 </a>
               </div>
 
-              <div class="grid gap-4 sm:grid-cols-2">
-                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 class="text-base font-semibold text-slate-950">
-                    Secure transactions
-                  </h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">
-                    Every airtime purchase is audited and logged for approved beneficiaries.
-                  </p>
-                </div>
-                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 class="text-base font-semibold text-slate-950">
-                    Instant delivery
-                  </h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">
-                    Airtime is delivered immediately after payment clears.
-                  </p>
-                </div>
-                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 class="text-base font-semibold text-slate-950">
-                    Trusted service
-                  </h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">
-                    Built for teams, families, and businesses that need reliable top-ups.
-                  </p>
-                </div>
-                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 class="text-base font-semibold text-slate-950">
-                    Clear history
-                  </h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">
-                    Every transaction is recorded with a visible reference for easy tracking.
-                  </p>
-                </div>
-              </div>
             </div>
 
-            <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl">
+            <div class="mx-auto max-w-[30rem] hidden lg:block sm:max-w-[36rem]">
               <img
-                src="/goldmen-home-hero.png"
-                alt="Goldmen mobile app preview"
-                class="w-full rounded-[1.5rem] object-cover"
+                src="/pngegg(5).png"
+                alt="Goldmen mobile app mockup"
+                class="w-full h-auto rounded-[1.5rem] object-cover"
               >
             </div>
           </div>
