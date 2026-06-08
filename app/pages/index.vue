@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HeroSection from '~/components/HeroSection.vue'
 import airtelLogo from '~/assets/icons/Airtel_logo.svg'
 import mpesaLogo from '~/assets/icons/mpesa.svg'
 import safaricomLogo from '~/assets/icons/safaricom-logo-vector.svg'
@@ -29,6 +30,7 @@ type StepItem = {
   number: string
   title: string
   description: string
+  icon: string
 }
 
 const providerMarks: ProviderMark[] = [
@@ -89,22 +91,26 @@ const steps: StepItem[] = [
   {
     number: '01',
     title: 'Login',
-    description: 'Sign in to your account to get started.'
+    description: 'Sign in to your account to get started.',
+    icon: 'i-lucide-log-in'
   },
   {
     number: '02',
     title: 'Enter details',
-    description: 'Choose the network, phone number, and amount.'
+    description: 'Choose the network, phone number, and amount.',
+    icon: 'i-lucide-edit-3'
   },
   {
     number: '03',
     title: 'Pay with M-Pesa',
-    description: 'Complete checkout with a fast and secure payment.'
+    description: 'Complete checkout with a fast and secure payment.',
+    icon: 'i-lucide-credit-card'
   },
   {
     number: '04',
     title: 'Airtime delivered',
-    description: 'The top-up is sent and you get confirmation.'
+    description: 'The top-up is sent and you get confirmation.',
+    icon: 'i-lucide-package'
   }
 ]
 
@@ -131,125 +137,7 @@ const buyOptions: CardItem[] = [
     />
 
     <main>
-      <section class="pt-8 sm:pt-10">
-        <UContainer>
-          <div class="grid items-center gap-10 lg:grid-cols-[1.02fr_.98fr] lg:gap-12">
-            <div class="max-w-2xl">
-              <UBadge
-                color="primary"
-                variant="soft"
-                class="px-3 py-1.5"
-              >
-                Approved numbers only
-              </UBadge>
-
-              <h1
-                class="mt-6 text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-[4.8rem] lg:leading-[0.95]"
-              >
-                Buy airtime
-                <br>
-                securely.
-              </h1>
-
-              <p class="mt-5 text-2xl font-semibold text-amber-600 sm:text-[2rem]">
-                For approved numbers only.
-              </p>
-
-              <p class="mt-5 max-w-xl text-lg leading-8 text-slate-700">
-                Fast, secure and reliable airtime for families, teams and
-                organizations. Powered by M-Pesa.
-              </p>
-
-              <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                <UButton
-                  to="/login"
-                  size="lg"
-                  label="Open App"
-                  trailing-icon="i-lucide-arrow-right"
-                  class="shadow-[0_12px_30px_rgba(245,158,11,.18)]"
-                />
-                <UButton
-                  to="#how-it-works"
-                  size="lg"
-                  color="neutral"
-                  variant="outline"
-                  label="How it works"
-                  trailing-icon="i-lucide-arrow-right"
-                />
-              </div>
-
-              <div class="mt-8 rounded-[1.75rem] border border-slate-200 bg-slate-50/80 p-4 shadow-sm">
-                <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-                  Supported providers
-                </p>
-
-                <div class="mt-4 overflow-hidden">
-                  <div class="goldmen-marquee-track flex w-max items-center gap-3 pr-3">
-                    <div
-                      v-for="(provider, index) in marqueeProviders"
-                      :key="`${provider.label}-${index}`"
-                      class="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm"
-                    >
-                      <img
-                        :src="provider.src"
-                        :alt="provider.label"
-                        class="h-6 w-auto object-contain"
-                      >
-                      <span class="text-sm font-semibold text-slate-700">
-                        {{ provider.label }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-8 grid gap-3 sm:grid-cols-3">
-                <div
-                  v-for="item in heroFacts"
-                  :key="item.title"
-                  class="rounded-[1.4rem] border border-slate-200 bg-white p-4 shadow-sm"
-                >
-                  <div class="flex items-start gap-3">
-                    <div
-                      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-950"
-                    >
-                      <UIcon
-                        :name="item.icon"
-                        class="size-5"
-                      />
-                    </div>
-                    <div>
-                      <p class="text-sm font-bold text-slate-950">
-                        {{ item.title }}
-                      </p>
-                      <p class="mt-1 text-sm leading-6 text-slate-600">
-                        {{ item.description }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="relative">
-              <div
-                class="goldmen-orb pointer-events-none absolute -left-10 top-16 h-40 w-40 rounded-full bg-amber-200/60 blur-3xl"
-              />
-              <div
-                class="pointer-events-none absolute -right-6 top-0 h-28 w-28 rounded-full bg-slate-900/10 blur-3xl"
-              />
-
-              <UCard class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-[0_25px_80px_rgba(15,23,42,.10)]">
-                <img
-                  src="/goldmen-home-hero.png"
-                  alt="Goldmen Solution home preview"
-                  class="w-full rounded-[1.5rem] border border-slate-200"
-                >
-              </UCard>
-            </div>
-          </div>
-        </UContainer>
-      </section>
+      <HeroSection />
 
       <section
         id="features"
@@ -310,39 +198,48 @@ const buyOptions: CardItem[] = [
             </p>
           </div>
 
-          <div class="mt-10 flex flex-col gap-3 lg:flex-row lg:items-stretch lg:gap-4">
+          <div class="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-4">
             <template
               v-for="(step, index) in steps"
               :key="step.number"
             >
-              <button
-                type="button"
-                class="flex flex-1 items-center gap-4 rounded-[2rem] border border-slate-200 bg-white px-5 py-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              <div
+                class="animate-step-card opacity-0 rounded-[2rem] border border-slate-200 bg-white p-8 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                :style="{ animationDelay: `${100 + index * 120}ms` }"
               >
-                <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-amber-100 text-sm font-black tracking-widest text-slate-950 ring-1 ring-amber-200">
-                  {{ step.number }}
-                </span>
+                <UChip
+                  :text="step.number"
+                  size="3xl"
+                  position="top-left"
+                >
+                  <UAvatar
+                    :icon="step.icon"
+                    size="xl"
+                  />
+                </UChip>
 
-                <span class="min-w-0">
-                  <span class="block text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-                    Step {{ step.number }}
-                  </span>
-                  <span class="mt-1 block text-lg font-bold text-slate-950">
-                    {{ step.title }}
-                  </span>
-                  <span class="mt-1 block text-sm leading-6 text-slate-600">
-                    {{ step.description }}
-                  </span>
-                </span>
-              </button>
+                <h3 class="mt-4 text-lg font-bold text-slate-950">
+                  {{ step.title }}
+                </h3>
+
+                <p class="mt-3 text-sm leading-6 text-slate-600">
+                  {{ step.description }}
+                </p>
+              </div>
 
               <div
                 v-if="index < steps.length - 1"
-                class="hidden items-center justify-center px-1 lg:flex"
+                class="flex items-center justify-center"
               >
-                <div class="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm">
+                <div class="hidden h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm lg:flex">
                   <UIcon
                     name="i-lucide-arrow-right"
+                    class="size-5"
+                  />
+                </div>
+                <div class="flex lg:hidden h-12 w-full items-center justify-center text-slate-400">
+                  <UIcon
+                    name="i-lucide-arrow-down"
                     class="size-5"
                   />
                 </div>
@@ -467,3 +364,20 @@ const buyOptions: CardItem[] = [
     </main>
   </div>
 </template>
+
+<style scoped>
+@keyframes step-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-step-card {
+  animation: step-fade-up 0.7s ease-out forwards;
+}
+</style>
