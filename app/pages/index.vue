@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import HeroSection from '~/components/HeroSection.vue'
-import airtelLogo from '~/assets/icons/Airtel_logo.svg'
+import airtelLogo from '~/assets/icons/airtel.svg'
 import mpesaLogo from '~/assets/icons/mpesa.svg'
-import safaricomLogo from '~/assets/icons/safaricom-logo-vector.svg'
-import telkomLogo from '~/assets/icons/Telkom_Mobile-Logo.wine.svg'
+import safaricomLogo from '~/assets/icons/safaricom.svg'
+import telkomLogo from '~/assets/icons/telkom.svg'
 
 definePageMeta({
   colorMode: 'light'
