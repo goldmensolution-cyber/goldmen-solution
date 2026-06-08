@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HeroSection from '~/components/HeroSection.vue'
+import googlePlayBadge from '~/assets/icons/google_play_store_badge.svg'
 import airtelLogo from '~/assets/icons/airtel.svg'
 import mpesaLogo from '~/assets/icons/mpesa.svg'
 import safaricomLogo from '~/assets/icons/safaricom.svg'
@@ -40,7 +41,6 @@ const providerMarks: ProviderMark[] = [
   { label: 'M-Pesa', src: mpesaLogo }
 ]
 
-const marqueeProviders = [...providerMarks, ...providerMarks]
 
 const heroFacts: CardItem[] = [
   {
@@ -254,69 +254,152 @@ const buyOptions: CardItem[] = [
         class="scroll-mt-24 px-4 py-16 sm:py-20"
       >
         <UContainer>
-          <div class="grid gap-10 lg:grid-cols-[.95fr_1.05fr] lg:items-start">
-            <div>
-              <p class="text-sm font-semibold uppercase tracking-[0.3em] text-amber-600">
-                Ways to buy airtime
-              </p>
-              <h2 class="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                Choose the quickest path for your team.
-              </h2>
-              <p class="mt-4 max-w-xl text-base leading-7 text-slate-600">
-                Keep the checkout experience consistent whether people use the
-                web app or a basic phone.
-              </p>
-            </div>
+          <div class="mb-10 max-w-3xl">
+            <h2 class="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+              Ways to buy airtime
+            </h2>
+            <p class="mt-4 text-base leading-7 text-slate-600">
+              Keep the checkout experience consistent whether people use the web app or a basic phone.
+            </p>
+          </div>
 
-            <div class="grid gap-4 sm:grid-cols-2">
-              <UCard
-                v-for="item in buyOptions"
-                :key="item.title"
-                class="rounded-[1.7rem] border border-slate-200 bg-white p-6 shadow-sm"
-              >
-                <div class="flex items-start gap-4">
-                  <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-slate-950 text-amber-300">
-                    <UIcon
-                      :name="item.icon"
-                      class="size-6"
-                    />
-                  </div>
-
-                  <div class="min-w-0">
-                    <h3 class="text-lg font-black text-slate-950">
-                      {{ item.title }}
-                    </h3>
-                    <p class="mt-2 text-sm leading-7 text-slate-600">
-                      {{ item.description }}
-                    </p>
-                  </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <UCard
+              v-for="item in buyOptions"
+              :key="item.title"
+              class="rounded-[1.7rem] border border-slate-200 bg-white p-6 shadow-sm"
+            >
+              <div class="flex items-start gap-4">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-slate-950 text-amber-300">
+                  <UIcon
+                    :name="item.icon"
+                    class="size-6"
+                  />
                 </div>
 
-                <template v-if="item.title === 'Buy on the website or app'">
-                  <div class="mt-6 flex flex-wrap gap-3">
-                    <UButton
-                      to="/login"
-                      label="Open Web App"
-                      trailing-icon="i-lucide-arrow-right"
-                    />
-                    <UButton
-                      to="/login"
-                      label="Login"
-                      color="neutral"
-                      variant="outline"
-                    />
-                  </div>
-                </template>
-
-                <template v-else>
-                  <div class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-lg font-semibold tracking-widest text-emerald-700">
-                    *4166283#
-                  </div>
-                  <p class="mt-3 text-sm text-slate-600">
-                    Paybill: <span class="font-semibold text-slate-950">4166283</span>
+                <div class="min-w-0">
+                  <h3 class="text-lg font-black text-slate-950">
+                    {{ item.title }}
+                  </h3>
+                  <p class="mt-2 text-sm leading-7 text-slate-600">
+                    {{ item.description }}
                   </p>
-                </template>
-              </UCard>
+                </div>
+              </div>
+
+              <template v-if="item.title === 'Buy on the website or app'">
+                <div class="mt-6 flex flex-wrap gap-3 items-center">
+                  <UButton
+                    to="/app"
+                    label="Open Web App"
+                    trailing-icon="i-lucide-arrow-right"
+                  />
+                  <a
+                    href="https://play.google.com/store/apps/details?id=ke.co.goldmen"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="inline-flex items-center rounded-full border border-slate-200 bg-slate-950 px-3 py-2 transition hover:bg-slate-800"
+                  >
+                    <img
+                      :src="googlePlayBadge"
+                      alt="Get it on Google Play"
+                      class="h-8"
+                    >
+                  </a>
+                </div>
+              </template>
+
+              <template v-else>
+                <div class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-lg font-semibold tracking-widest text-emerald-700">
+                  *4166283#
+                </div>
+                <p class="mt-3 text-sm text-slate-600">
+                  Paybill: <span class="font-semibold text-slate-950">4166283</span>
+                </p>
+              </template>
+            </UCard>
+          </div>
+        </UContainer>
+      </section>
+
+      <section
+        id="download"
+        class="scroll-mt-24 px-4 py-16 sm:py-20"
+      >
+        <UContainer>
+          <div class="grid gap-10 lg:grid-cols-[.95fr_1.05fr] lg:items-center">
+            <div class="space-y-6">
+              <p class="text-sm font-semibold uppercase tracking-[0.3em] text-amber-600">
+                Get it on Google Play
+              </p>
+              <h2 class="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                Download the Goldmen app for faster airtime top-ups.
+              </h2>
+              <p class="max-w-xl text-base leading-7 text-slate-600">
+                Use the mobile app to purchase airtime instantly, track approved numbers, and keep a clear transaction history.
+              </p>
+
+              <div class="flex flex-wrap gap-3">
+                <UButton
+                  to="/app"
+                  label="Open Web App"
+                />
+                <a
+                  href="https://play.google.com/store/apps/details?id=ke.co.goldmen"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 transition hover:bg-slate-50"
+                >
+                  <img
+                    :src="googlePlayBadge"
+                    alt="Get it on Google Play"
+                    class="h-8"
+                  >
+                </a>
+              </div>
+
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 class="text-base font-semibold text-slate-950">
+                    Secure transactions
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Every airtime purchase is audited and logged for approved beneficiaries.
+                  </p>
+                </div>
+                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 class="text-base font-semibold text-slate-950">
+                    Instant delivery
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Airtime is delivered immediately after payment clears.
+                  </p>
+                </div>
+                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 class="text-base font-semibold text-slate-950">
+                    Trusted service
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Built for teams, families, and businesses that need reliable top-ups.
+                  </p>
+                </div>
+                <div class="rounded-[1.6rem] border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 class="text-base font-semibold text-slate-950">
+                    Clear history
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Every transaction is recorded with a visible reference for easy tracking.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl">
+              <img
+                src="/goldmen-home-hero.png"
+                alt="Goldmen mobile app preview"
+                class="w-full rounded-[1.5rem] object-cover"
+              >
             </div>
           </div>
         </UContainer>
