@@ -188,8 +188,8 @@ async function handleGoogleCredentialResponse(
     setSession(data.session ?? null)
     resetMessages()
   } catch (error) {
-    errorMessage.value =
-      error instanceof Error ? error.message : 'Google sign-in failed.'
+    errorMessage.value
+      = error instanceof Error ? error.message : 'Google sign-in failed.'
   } finally {
     loading.value = false
   }
@@ -237,9 +237,9 @@ async function startGoogleLogin() {
 
     google.accounts.id.prompt((notification: any) => {
       if (
-        notification.isNotDisplayed?.() ||
-        notification.isSkippedMoment?.() ||
-        notification.isDismissedMoment?.()
+        notification.isNotDisplayed?.()
+        || notification.isSkippedMoment?.()
+        || notification.isDismissedMoment?.()
       ) {
         loading.value = false
         errorMessage.value = 'Google sign-in was not completed.'
@@ -247,8 +247,8 @@ async function startGoogleLogin() {
     })
   } catch (error) {
     loading.value = false
-    errorMessage.value =
-      error instanceof Error ? error.message : 'Google sign-in failed.'
+    errorMessage.value
+      = error instanceof Error ? error.message : 'Google sign-in failed.'
   }
 }
 
@@ -327,8 +327,8 @@ async function handleSubmit(
 
     setSession(authData.session ?? null)
   } catch (error) {
-    errorMessage.value =
-      error instanceof Error ? error.message : 'Sign-in failed.'
+    errorMessage.value
+      = error instanceof Error ? error.message : 'Sign-in failed.'
   } finally {
     loading.value = false
   }
@@ -365,151 +365,80 @@ onMounted(async () => {
   <div class="min-h-screen bg-slate-50 text-slate-950">
     <div class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[36rem] bg-[radial-gradient(circle_at_top,_rgba(245,158,11,.18),_transparent_52%),linear-gradient(to_bottom,#ffffff_0%,#f8fafc_52%,#f8fafc_100%)]" />
 
-    <UContainer class="flex min-h-screen items-center py-10">
-      <div class="grid w-full gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-        <div class="max-w-2xl">
-          <UBadge
+    <UContainer class="flex min-h-screen items-center justify-center py-10">
+      <UCard class="w-full max-w-md rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,.10)]">
+        <div class="mb-5 flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 p-1">
+          <UButton
+            label="Password"
+            :variant="mode === 'password' ? 'soft' : 'ghost'"
             color="primary"
-            variant="soft"
-            class="px-3 py-1.5"
-          >
-            Goldmen Solution
-          </UBadge>
-
-          <h1 class="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-7xl">
-            Sign in
-            <span class="text-amber-600">with the method you prefer.</span>
-          </h1>
-
-          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
-            Use Google, email and password, or a one-time code. The page keeps
-            the flow simple, mobile-friendly, and close to your current design.
-          </p>
-
-          <div class="mt-8 grid gap-3 sm:grid-cols-3">
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div class="flex items-center gap-3">
-                <UIcon
-                  name="i-lucide-shield-check"
-                  class="h-5 w-5 text-amber-600"
-                />
-                <div>
-                  <p class="text-sm font-semibold">Google</p>
-                  <p class="text-sm text-slate-500">Native flow</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div class="flex items-center gap-3">
-                <UIcon
-                  name="i-lucide-lock"
-                  class="h-5 w-5 text-amber-600"
-                />
-                <div>
-                  <p class="text-sm font-semibold">Password</p>
-                  <p class="text-sm text-slate-500">Fast access</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div class="flex items-center gap-3">
-                <UIcon
-                  name="i-lucide-mail"
-                  class="h-5 w-5 text-amber-600"
-                />
-                <div>
-                  <p class="text-sm font-semibold">OTP</p>
-                  <p class="text-sm text-slate-500">Email code</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
-            <img
-              src="/goldmen-home-hero.png"
-              alt="Goldmen Solution preview"
-              class="w-full rounded-[1.5rem]"
-            >
-          </div>
+            class="flex-1 justify-center rounded-full"
+            @click="switchMode('password')"
+          />
+          <UButton
+            label="OTP"
+            :variant="mode === 'otp' ? 'soft' : 'ghost'"
+            color="primary"
+            class="flex-1 justify-center rounded-full"
+            @click="startOtpFlow"
+          />
         </div>
 
-        <UCard class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,.10)]">
-          <div class="mb-5 flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 p-1">
-            <UButton
-              label="Password"
-              :variant="mode === 'password' ? 'soft' : 'ghost'"
-              color="primary"
-              class="flex-1 justify-center rounded-full"
-              @click="switchMode('password')"
-            />
-            <UButton
-              label="OTP"
-              :variant="mode === 'otp' ? 'soft' : 'ghost'"
-              color="primary"
-              class="flex-1 justify-center rounded-full"
-              @click="startOtpFlow"
-            />
-          </div>
+        <UAuthForm
+          :title="mode === 'password' ? 'Welcome back' : 'Verify your email'"
+          :description="mode === 'password'
+            ? 'Use Google, email/password, or switch to OTP.'
+            : otpStep
+              ? 'Enter the code sent to your email address.'
+              : 'We will send a one-time code to your email.'"
+          icon="i-lucide-shield-check"
+          :providers="providers"
+          :fields="fields"
+          :submit="{ label: submitLabel, block: true }"
+          :loading="loading"
+          separator="or"
+          class="w-full"
+          @submit="handleSubmit"
+        >
+          <template #footer>
+            <div class="space-y-3">
+              <UAlert
+                v-if="errorMessage"
+                color="red"
+                variant="soft"
+                icon="i-lucide-circle-alert"
+                :title="errorMessage"
+              />
 
-          <UAuthForm
-            :title="mode === 'password' ? 'Welcome back' : 'Verify your email'"
-            :description="mode === 'password'
-              ? 'Use Google, email/password, or switch to OTP.'
-              : otpStep
-                ? 'Enter the code sent to your email address.'
-                : 'We will send a one-time code to your email.'"
-            icon="i-lucide-shield-check"
-            :providers="providers"
-            :fields="fields"
-            :submit="{ label: submitLabel, block: true }"
-            :loading="loading"
-            separator="or"
-            class="w-full"
-            @submit="handleSubmit"
-          >
-            <template #footer>
-              <div class="space-y-3">
-                <UAlert
-                  v-if="errorMessage"
-                  color="red"
-                  variant="soft"
-                  icon="i-lucide-circle-alert"
-                  :title="errorMessage"
+              <UAlert
+                v-if="successMessage"
+                color="green"
+                variant="soft"
+                icon="i-lucide-badge-check"
+                :title="successMessage"
+              />
+
+              <div class="flex items-center justify-between gap-3">
+                <UButton
+                  to="/"
+                  color="neutral"
+                  variant="ghost"
+                  icon="i-lucide-arrow-left"
+                  label="Back home"
                 />
 
-                <UAlert
-                  v-if="successMessage"
-                  color="green"
-                  variant="soft"
-                  icon="i-lucide-badge-check"
-                  :title="successMessage"
+                <UButton
+                  v-if="mode === 'otp' && otpStep"
+                  color="neutral"
+                  variant="outline"
+                  label="Change email"
+                  @click="otpStep = false"
                 />
-
-                <div class="flex items-center justify-between gap-3">
-                  <UButton
-                    to="/"
-                    color="neutral"
-                    variant="ghost"
-                    icon="i-lucide-arrow-left"
-                    label="Back home"
-                  />
-
-                  <UButton
-                    v-if="mode === 'otp' && otpStep"
-                    color="neutral"
-                    variant="outline"
-                    label="Change email"
-                    @click="otpStep = false"
-                  />
-                </div>
               </div>
-            </template>
-          </UAuthForm>
-        </UCard>
-      </div>
+            </div>
+          </template>
+        </UAuthForm>
+      </UCard>
     </UContainer>
   </div>
 </template>
