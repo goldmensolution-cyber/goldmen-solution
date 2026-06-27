@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'app'
-})
-
 useSeoMeta({
   title: 'Goldmen App',
   description: 'Airtime request dashboard for sending STK pushes and tracking transactions.'
