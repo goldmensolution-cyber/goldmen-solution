@@ -28,7 +28,7 @@ export const useAuth = () => {
       const { data } = await supabase.auth.getSession()
       sync(data.session)
 
-      if (process.client && !initialized) {
+      if (import.meta.client && !initialized) {
         initialized = true
         supabase.auth.onAuthStateChange((_event, nextSession) => {
           sync(nextSession)

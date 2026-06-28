@@ -29,7 +29,10 @@ const sidebarOpen = ref(true)
           </div>
 
           <div class="flex items-center gap-2">
-            <UBadge color="success" variant="soft">
+            <UBadge
+              color="success"
+              variant="soft"
+            >
               Live
             </UBadge>
 

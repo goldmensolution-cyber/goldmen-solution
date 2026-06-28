@@ -1,16 +1,16 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[]
+export type Json
+  = | string
+    | number
+    | boolean
+    | null
+    | { [key: string]: Json | undefined }
+    | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.4"
+    PostgrestVersion: '13.0.4'
   }
   graphql_public: {
     Tables: {
@@ -219,12 +219,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_kyanda_callback"
-            columns: ["kyanda_callback_id"]
+            foreignKeyName: 'fk_kyanda_callback'
+            columns: ['kyanda_callback_id']
             isOneToOne: false
-            referencedRelation: "kyanda_callback"
-            referencedColumns: ["id"]
-          },
+            referencedRelation: 'kyanda_callback'
+            referencedColumns: ['id']
+          }
         ]
       }
       mpesa_payments: {
@@ -249,7 +249,7 @@ export type Database = {
           response_description: string | null
           result_code: number | null
           result_desc: string | null
-          status: Database["public"]["Enums"]["payment_status_enum"]
+          status: Database['public']['Enums']['payment_status_enum']
           transaction_desc: string | null
           transaction_time: string | null
           transaction_type: string
@@ -276,7 +276,7 @@ export type Database = {
           response_description?: string | null
           result_code?: number | null
           result_desc?: string | null
-          status?: Database["public"]["Enums"]["payment_status_enum"]
+          status?: Database['public']['Enums']['payment_status_enum']
           transaction_desc?: string | null
           transaction_time?: string | null
           transaction_type?: string
@@ -303,7 +303,7 @@ export type Database = {
           response_description?: string | null
           result_code?: number | null
           result_desc?: string | null
-          status?: Database["public"]["Enums"]["payment_status_enum"]
+          status?: Database['public']['Enums']['payment_status_enum']
           transaction_desc?: string | null
           transaction_time?: string | null
           transaction_type?: string
@@ -455,19 +455,19 @@ export type Database = {
       telcos: {
         Row: {
           active: boolean
-          code: Database["public"]["Enums"]["telco_enum"]
+          code: Database['public']['Enums']['telco_enum']
           display_name: string
           vendor_name: string
         }
         Insert: {
           active?: boolean
-          code: Database["public"]["Enums"]["telco_enum"]
+          code: Database['public']['Enums']['telco_enum']
           display_name: string
           vendor_name: string
         }
         Update: {
           active?: boolean
-          code?: Database["public"]["Enums"]["telco_enum"]
+          code?: Database['public']['Enums']['telco_enum']
           display_name?: string
           vendor_name?: string
         }
@@ -530,37 +530,37 @@ export type Database = {
     }
     Functions: {
       claim_transactions_for_user: {
-        Args: { p_days?: number; p_phone: string; p_user: string }
+        Args: { p_days?: number, p_phone: string, p_user: string }
         Returns: number
       }
-      is_admin: { Args: { uid: string }; Returns: boolean }
-      show_limit: { Args: never; Returns: number }
-      show_trgm: { Args: { "": string }; Returns: string[] }
+      is_admin: { Args: { uid: string }, Returns: boolean }
+      show_limit: { Args: never, Returns: number }
+      show_trgm: { Args: { '': string }, Returns: string[] }
     }
     Enums: {
-      auth_provider: "password" | "phone" | "google"
-      currency_code: "KES"
-      currency_enum: "KES"
-      payment_provider: "MPESA"
+      auth_provider: 'password' | 'phone' | 'google'
+      currency_code: 'KES'
+      currency_enum: 'KES'
+      payment_provider: 'MPESA'
       payment_status_enum:
-        | "initiated"
-        | "awaiting_customer"
-        | "paid"
-        | "cancelled"
-        | "timed_out"
-        | "failed"
-        | "reversed"
-        | "refunded"
-        | "unknown"
-      telco_enum: "SAFARICOM" | "AIRTEL" | "TELKOM" | "EQUITEL" | "FAIBA"
-      txn_status: "PENDING" | "SUCCESS" | "FAILED" | "CANCELLED" | "EXPIRED"
+        | 'initiated'
+        | 'awaiting_customer'
+        | 'paid'
+        | 'cancelled'
+        | 'timed_out'
+        | 'failed'
+        | 'reversed'
+        | 'refunded'
+        | 'unknown'
+      telco_enum: 'SAFARICOM' | 'AIRTEL' | 'TELKOM' | 'EQUITEL' | 'FAIBA'
+      txn_status: 'PENDING' | 'SUCCESS' | 'FAILED' | 'CANCELLED' | 'EXPIRED'
       vend_status_enum:
-        | "submitted"
-        | "pending"
-        | "success"
-        | "failed"
-        | "reversed"
-        | "unknown"
+        | 'submitted'
+        | 'pending'
+        | 'success'
+        | 'failed'
+        | 'reversed'
+        | 'unknown'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -568,154 +568,154 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+  | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+      & DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    : never = never
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    & DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
-    ? R
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
-      }
       ? R
       : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables']
+    & DefaultSchema['Views'])
+    ? (DefaultSchema['Tables']
+      & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+        ? R
+        : never
     : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema['Tables']
+  | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    : never = never
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
-    }
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+    Insert: infer I
+  }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
-      }
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+      Insert: infer I
+    }
       ? I
       : never
     : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema['Tables']
+  | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    : never = never
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
-    }
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+    Update: infer U
+  }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
-      }
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+      Update: infer U
+    }
       ? U
       : never
     : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema['Enums']
+  | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    : never = never
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema['CompositeTypes']
+  | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   graphql_public: {
-    Enums: {},
+    Enums: {}
   },
   public: {
     Enums: {
-      auth_provider: ["password", "phone", "google"],
-      currency_code: ["KES"],
-      currency_enum: ["KES"],
-      payment_provider: ["MPESA"],
+      auth_provider: ['password', 'phone', 'google'],
+      currency_code: ['KES'],
+      currency_enum: ['KES'],
+      payment_provider: ['MPESA'],
       payment_status_enum: [
-        "initiated",
-        "awaiting_customer",
-        "paid",
-        "cancelled",
-        "timed_out",
-        "failed",
-        "reversed",
-        "refunded",
-        "unknown",
+        'initiated',
+        'awaiting_customer',
+        'paid',
+        'cancelled',
+        'timed_out',
+        'failed',
+        'reversed',
+        'refunded',
+        'unknown'
       ],
-      telco_enum: ["SAFARICOM", "AIRTEL", "TELKOM", "EQUITEL", "FAIBA"],
-      txn_status: ["PENDING", "SUCCESS", "FAILED", "CANCELLED", "EXPIRED"],
+      telco_enum: ['SAFARICOM', 'AIRTEL', 'TELKOM', 'EQUITEL', 'FAIBA'],
+      txn_status: ['PENDING', 'SUCCESS', 'FAILED', 'CANCELLED', 'EXPIRED'],
       vend_status_enum: [
-        "submitted",
-        "pending",
-        "success",
-        "failed",
-        "reversed",
-        "unknown",
-      ],
-    },
-  },
+        'submitted',
+        'pending',
+        'success',
+        'failed',
+        'reversed',
+        'unknown'
+      ]
+    }
+  }
 } as const

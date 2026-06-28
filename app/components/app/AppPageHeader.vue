@@ -20,12 +20,18 @@ defineProps<{
         {{ title }}
       </h1>
 
-      <p v-if="description" class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+      <p
+        v-if="description"
+        class="mt-3 max-w-2xl text-sm leading-7 text-slate-600"
+      >
         {{ description }}
       </p>
     </div>
 
-    <div v-if="$slots.action" class="shrink-0">
+    <div
+      v-if="$slots.action"
+      class="shrink-0"
+    >
       <slot name="action" />
     </div>
   </div>

@@ -26,7 +26,10 @@ onMounted(async () => {
       <div class="mx-auto w-full max-w-2xl rounded-4xl border border-slate-200 bg-white p-10 shadow-2xl">
         <div class="space-y-6 text-center">
           <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-100 text-emerald-700">
-            <UIcon name="i-lucide-check-circle" class="size-7" />
+            <UIcon
+              name="i-lucide-check-circle"
+              class="size-7"
+            />
           </div>
 
           <div>

@@ -4,8 +4,15 @@
 
     <UContainer class="relative flex min-h-screen items-center justify-center px-4 py-10">
       <div class="w-full max-w-md">
-        <NuxtLink to="/" class="mb-6 inline-flex items-center gap-3">
-          <img src="/logo.png" alt="Goldmen" class="h-10 w-auto" />
+        <NuxtLink
+          to="/"
+          class="mb-6 inline-flex items-center gap-3"
+        >
+          <img
+            src="/logo.png"
+            alt="Goldmen"
+            class="h-10 w-auto"
+          >
           <div>
             <p class="font-semibold text-white">Goldmen</p>
             <p class="text-xs text-slate-400">Airtime with intent</p>

@@ -54,7 +54,10 @@ async function signOut() {
           G
         </div>
 
-        <div class="min-w-0" v-if="open">
+        <div
+          v-if="open"
+          class="min-w-0"
+        >
           <p class="truncate text-sm font-semibold tracking-tight">
             Goldmen Solution
           </p>
@@ -82,23 +85,38 @@ async function signOut() {
         </UButton>
       </div>
 
-      <div class="px-4 py-4" v-if="state === 'expanded'">
+      <div
+        v-if="state === 'expanded'"
+        class="px-4 py-4"
+      >
         <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
             Supported providers
           </p>
 
           <div class="mt-3 flex flex-wrap gap-2">
-            <UBadge color="neutral" variant="soft">
+            <UBadge
+              color="neutral"
+              variant="soft"
+            >
               Safaricom
             </UBadge>
-            <UBadge color="neutral" variant="soft">
+            <UBadge
+              color="neutral"
+              variant="soft"
+            >
               M-Pesa
             </UBadge>
-            <UBadge color="neutral" variant="soft">
+            <UBadge
+              color="neutral"
+              variant="soft"
+            >
               Airtel
             </UBadge>
-            <UBadge color="neutral" variant="soft">
+            <UBadge
+              color="neutral"
+              variant="soft"
+            >
               Telkom
             </UBadge>
           </div>

@@ -192,7 +192,11 @@ async function onSubmit(event: FormSubmitEvent<AirtimeFormState>) {
           </h2>
         </div>
 
-        <UBadge :color="provider.color" variant="soft" :icon="provider.icon">
+        <UBadge
+          :color="provider.color"
+          variant="soft"
+          :icon="provider.icon"
+        >
           {{ provider.label }}
         </UBadge>
       </div>
@@ -222,7 +226,10 @@ async function onSubmit(event: FormSubmitEvent<AirtimeFormState>) {
       </UFormField>
 
       <div class="flex flex-wrap items-center gap-2">
-        <UBadge :color="provider.color" variant="soft">
+        <UBadge
+          :color="provider.color"
+          variant="soft"
+        >
           {{ provider.description }}
         </UBadge>
       </div>

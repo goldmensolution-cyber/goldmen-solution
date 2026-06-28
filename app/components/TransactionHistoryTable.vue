@@ -64,8 +64,8 @@ const columns: TableColumn<AirtimeTransaction>[] = [
     cell: ({ row }) => {
       const status = String(row.getValue('status'))
 
-      const color =
-        status === 'success'
+      const color
+        = status === 'success'
           ? 'success'
           : status === 'pending'
             ? 'warning'
@@ -159,18 +159,27 @@ defineExpose({
           placeholder="Filter history..."
           class="max-w-sm"
         />
-        <UBadge color="neutral" variant="soft">
+        <UBadge
+          color="neutral"
+          variant="soft"
+        >
           {{ data?.length || 0 }} records
         </UBadge>
       </div>
 
-      <div v-if="pending" class="space-y-3">
+      <div
+        v-if="pending"
+        class="space-y-3"
+      >
         <USkeleton class="h-12 w-full rounded-xl" />
         <USkeleton class="h-12 w-full rounded-xl" />
         <USkeleton class="h-12 w-full rounded-xl" />
       </div>
 
-      <div v-else-if="!data?.length" class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+      <div
+        v-else-if="!data?.length"
+        class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center"
+      >
         <p class="text-sm font-medium text-slate-600">
           No airtime requests yet.
         </p>
@@ -179,7 +188,10 @@ defineExpose({
         </p>
       </div>
 
-      <div v-else class="space-y-4">
+      <div
+        v-else
+        class="space-y-4"
+      >
         <UTable
           v-model:pagination="pagination"
           v-model:global-filter="globalFilter"

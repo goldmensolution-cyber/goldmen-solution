@@ -31,8 +31,17 @@ useSeoMeta({
         </p>
 
         <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <UButton to="/" label="Back home" color="primary" />
-          <UButton to="/login" label="Open app" color="neutral" variant="soft" />
+          <UButton
+            to="/"
+            label="Back home"
+            color="primary"
+          />
+          <UButton
+            to="/login"
+            label="Open app"
+            color="neutral"
+            variant="soft"
+          />
         </div>
       </UCard>
     </main>
